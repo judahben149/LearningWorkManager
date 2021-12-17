@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnStartWork"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Start Work"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnWorkStatus"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Work status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnStartWork"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnResetStatus"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Reset status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnWorkStatus"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnDoWorkOnUIThread"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Do work on UI thread"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnResetStatus"
+        android:layout_marginTop="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
