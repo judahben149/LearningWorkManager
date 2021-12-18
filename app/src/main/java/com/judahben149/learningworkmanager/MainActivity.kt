@@ -19,35 +19,163 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnStartWork.setOnClickListener {
-            //create a work request that takes in the worker class
-            //val workRequest = OneTimeWorkRequest.Builder(SimpleWorker::class.java).build()
-            //OR
-
-            val data = workDataOf("WORK MESSAGE" to "Work Completed!")
-            val constraints = Constraints.Builder().setRequiresCharging(true)
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+        binding.btnSingleChainSucceed.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
                 .build()
 
-            val workRequest = OneTimeWorkRequestBuilder<SimpleWorker>().setConstraints(constraints)
-                .setInputData(data).build()
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
 
-            //enqueue your work request into the work manager instance
-            workManager.enqueue(workRequest)
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            workManager.beginWith(objectDetectionWorkRequest)
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+                .enqueue()
         }
 
-        binding.btnWorkStatus.setOnClickListener {
-            Snackbar.make(binding.root, "Is work completed? : ${WorkStatusSingleton.workMessage}", Snackbar.LENGTH_SHORT).show()
+        binding.btnSingleChainFail.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to false))
+                .build()
+
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            workManager.beginWith(objectDetectionWorkRequest)
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+                .enqueue()
         }
 
-        binding.btnResetStatus.setOnClickListener {
-            WorkStatusSingleton.isWorkComplete = false
-            WorkStatusSingleton.workMessage = ""
+        binding.btnGroupChainSucceed.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val objectDetectionWorkRequest2 = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            workManager.beginWith(listOf(objectDetectionWorkRequest, objectDetectionWorkRequest2))
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+                .enqueue()
         }
 
-        binding.btnDoWorkOnUIThread.setOnClickListener {
-            Thread.sleep(10000)
-            WorkStatusSingleton.isWorkComplete = true
+        binding.btnGroupChainFail.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val objectDetectionWorkRequest2 = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to false))
+                .build()
+
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true))
+                .build()
+
+            workManager.beginWith(listOf(objectDetectionWorkRequest, objectDetectionWorkRequest2))
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+                .enqueue()
+        }
+
+        binding.btnMultipleChainSucceed.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val objectDetectionWorkRequest2 = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "TWO"))
+                .build()
+
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val networkRequestWorkRequest2 = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "TWO"))
+                .build()
+
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val databaseWriteWorkRequest2 = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "TWO"))
+                .build()
+
+            val recommendation1 = workManager.beginWith(objectDetectionWorkRequest)
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+
+            val recommendation2 = workManager.beginWith(objectDetectionWorkRequest2)
+                .then(networkRequestWorkRequest2)
+                .then(databaseWriteWorkRequest2)
+
+            val root = WorkContinuation.combine(listOf(recommendation1, recommendation2))
+            root.enqueue()
+        }
+
+        binding.btnMultipleChainFail.setOnClickListener {
+            val objectDetectionWorkRequest = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val objectDetectionWorkRequest2 = OneTimeWorkRequestBuilder<ObjectDetectionWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "TWO"))
+                .build()
+
+            val networkRequestWorkRequest = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val networkRequestWorkRequest2 = OneTimeWorkRequestBuilder<NetworkRequestWorker>()
+                .setInputData(workDataOf("SUCCESS" to false, "NAME" to "TWO"))
+                .build()
+
+            val databaseWriteWorkRequest = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "ONE"))
+                .build()
+
+            val databaseWriteWorkRequest2 = OneTimeWorkRequestBuilder<DatabaseWriteWorker>()
+                .setInputData(workDataOf("SUCCESS" to true, "NAME" to "TWO"))
+                .build()
+
+
+            val recommendation1 = workManager.beginWith(objectDetectionWorkRequest)
+                .then(networkRequestWorkRequest)
+                .then(databaseWriteWorkRequest)
+
+            val recommendation2 = workManager.beginWith(objectDetectionWorkRequest2)
+                .then(networkRequestWorkRequest2)
+                .then(databaseWriteWorkRequest2)
+
+            val root = WorkContinuation.combine(listOf(recommendation1, recommendation2))
+            root.enqueue()
         }
     }
 }
