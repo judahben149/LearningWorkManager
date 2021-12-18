@@ -7,43 +7,63 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnStartWork"
+        android:id="@+id/btnSingleChainSucceed"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Start Work"
+        android:text="Single chain succeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/btnWorkStatus"
+        android:id="@+id/btnSingleChainFail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Work status"
+        android:text="Single chain fail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnStartWork"
+        app:layout_constraintTop_toBottomOf="@id/btnSingleChainSucceed"
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/btnResetStatus"
+        android:id="@+id/btnGroupChainSucceed"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Reset status"
+        android:text="Group chain succeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnWorkStatus"
+        app:layout_constraintTop_toBottomOf="@id/btnSingleChainFail"
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/btnDoWorkOnUIThread"
+        android:id="@+id/btnGroupChainFail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Do work on UI thread"
+        android:text="Group chain fail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnResetStatus"
+        app:layout_constraintTop_toBottomOf="@id/btnGroupChainSucceed"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnMultipleChainSucceed"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Multiple chain succeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnGroupChainFail"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnMultipleChainFail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Multiple chain fail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMultipleChainSucceed"
         android:layout_marginTop="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
